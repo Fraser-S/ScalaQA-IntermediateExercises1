@@ -6,7 +6,7 @@ object Main {
   def checkHandIsOk(hand : Int) : Boolean = hand match{
     case x if hand > 21 => false //hand is over 21, hand is bust
     case x if hand <= 21 && hand >= 2 => true //hand is in a possible range, pass
-    case _ => false //hand is not a possible score, count as bust
+    case _ => printf("Error, %d is not a possible range\n", hand);false //hand is not a possible score, count as bust
   }
 
   //if neither is over 21 get the largest value
@@ -24,13 +24,16 @@ object Main {
   //check for winner
   def checkForWinningHand(hand1 : Int, hand2 : Int) : Int = {
     //set this so it works
+    val hand1Pass : Boolean = checkHandIsOk(hand1)
+    val hand2pass : Boolean = checkHandIsOk(hand2)
+
     val x : Int = 0
     x match
     {
-      case x if checkHandIsOk(hand1) && checkHandIsOk(hand2) => returnLargestValue(hand1, hand2)
-      case x if !checkHandIsOk(hand1) && checkHandIsOk(hand2) => hand2
-      case x if checkHandIsOk(hand1) && !checkHandIsOk(hand2) => hand1
-      case x if !checkHandIsOk(hand1) && !checkHandIsOk(hand2) => 0
+      case x if hand1Pass && hand2pass => returnLargestValue(hand1, hand2) //if both hands are fine check
+      case x if !hand1Pass && hand2pass => hand2
+      case x if hand1Pass && !hand2pass => hand1
+      case x if !hand1Pass && !hand2pass => 0
       case _ => println("Something went wrong"); 0
     }
   }
